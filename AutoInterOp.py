@@ -138,14 +138,14 @@ def dependency_check():
               type=click.Path(exists=True),
               required=True,
               help='Path to an Illumina MiSeq run folder. '
-                   'This should contain a SampleInfo.xml file and an InterOp folder')
+                   'This should contain a SampleInfo.xml file and an InterOp folder.')
 @click.option('-o', '--output_folder',
               type=click.Path(),
-              help='Path to desired output folder. Defaults to the same place as the MiSeq run root folder')
+              help='Path to desired output folder. Defaults to the same place as the specified run_folder.')
 @click.option('-z', '--zip',
               is_flag=True,
               default=False,
-              help='Set this flag to zip all output files into a single archive')
+              help='Set this flag to zip all output files into a single archive available in your output folder.')
 def main(run_folder, zip, output_folder=None):
     logging.basicConfig(
         format='\033[92m \033[1m %(asctime)s %(levelname)s \033[0m %(message)s',
