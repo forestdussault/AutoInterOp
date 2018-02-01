@@ -3,6 +3,7 @@ import glob
 import click
 import zipfile
 import logging
+from accessoryFunctions import accessoryFunctions
 
 
 def replace_line(file_name, line_num, text):
@@ -107,6 +108,27 @@ def generate_summaries(run_folder, output_folder):
     return summary_files
 
 
+def dependency_check():
+    dependencies = ['aggregate',
+                    'imaging_table',
+                    'index-summary',
+                    'plot_by_cycle',
+                    'plot_by_lane',
+                    'plot_flowcell',
+                    'plot_qscore_heatmap',
+                    'plot_qscore_histogram',
+                    'plot_sample_qc',
+                    'summary']
+    missing_dependencies = list()
+    for dependency in dependencies:
+        if accessoryFunctions.dependency_check(dependency) is False:
+            missing_dependencies.append(dependency)
+    if missing_dependencies:
+        logging.error('The following dependencies are not available on your $PATH: {}\nPlease install them'
+              ' and try rerunning AutoInterOp.'.format(missing_dependencies))
+        quit()
+
+
 @click.command()
 @click.option('-r', '--run_folder',
               type=click.Path(exists=True),
@@ -122,9 +144,11 @@ def generate_summaries(run_folder, output_folder):
               help='Set this flag to zip all output files into a single archive')
 def main(run_folder, zip, output_folder=None):
     logging.basicConfig(
-        format='\033[92m \033[1m %(asctime)s \033[0m %(message)s ',
+        format='\033[92m \033[1m %(asctime)s %(levelname)s \033[0m %(message)s',
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S')
+
+    dependency_check()
 
     if output_folder is None:
         output_folder = run_folder
@@ -153,7 +177,7 @@ def main(run_folder, zip, output_folder=None):
         for file in all_files:
             os.remove(file)
 
-    logging.info('InterOp Pipeline completed')
+    logging.info('InterOp Pipeline completed. Output available at {}'.format(output_folder))
 
 if __name__ == '__main__':
     main()
