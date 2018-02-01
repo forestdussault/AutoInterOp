@@ -109,6 +109,10 @@ def generate_summaries(run_folder, output_folder):
 
 
 def dependency_check():
+    """
+    Checks if any of the InterOp binaries are missing.
+    This has way too much package overhead (biopython, OLCTools) for something I should probably just implement myself.
+    """
     dependencies = ['aggregate',
                     'imaging_table',
                     'index-summary',
@@ -119,13 +123,13 @@ def dependency_check():
                     'plot_qscore_histogram',
                     'plot_sample_qc',
                     'summary']
-    missing_dependencies = list()
+    missing_dependencies = []
     for dependency in dependencies:
         if accessoryFunctions.dependency_check(dependency) is False:
             missing_dependencies.append(dependency)
     if missing_dependencies:
-        logging.error('The following dependencies are not available on your $PATH: {}\nPlease install them'
-              ' and try rerunning AutoInterOp.'.format(missing_dependencies))
+        logging.error('The following dependencies are not available on your $PATH: {}'
+                      '\nPlease install them and try rerunning AutoInterOp.'.format(missing_dependencies))
         quit()
 
 
@@ -148,8 +152,10 @@ def main(run_folder, zip, output_folder=None):
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S')
 
+    # Check to see if necessary binaries are present
     dependency_check()
 
+    # Set up output folder
     if output_folder is None:
         output_folder = run_folder
 
