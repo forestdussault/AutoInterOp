@@ -5,6 +5,9 @@ Automatically runs a number of Illumina InterOp processing tools on a
 target MiSeq run folder. The folder should contain both an **InterOp** folder
 and a **RunInfo.xml** file.
 
+### Installation
+```pip3 install AutoInterOp```
+
 #### Dependencies
 All InterOp binaries must be added to your $PATH.
 - InterOp (v1.1.3): _https://github.com/Illumina/interop/releases_

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import glob
 import click
@@ -43,7 +45,7 @@ def create_plots(run_folder, output_folder):
     plot_files = []
 
     for plot in interop_plots:
-        logging.info('Creating plot for {} with {}'.format(miseq_run, plot))
+        logging.info('Creating plot with {}...'.format(plot))
 
         gnuplot_output = os.path.join(output_folder, '{}_gnuplot.txt'.format(plot))
 
@@ -92,7 +94,7 @@ def generate_summaries(run_folder, output_folder):
     summary_files = []
 
     for program in interop_programs:
-        logging.info('Creating text output for {} with {}'.format(miseq_run, program))
+        logging.info('Creating text output with {}...'.format(program))
         if program == 'index-summary':
             output_filename = os.path.join(output_folder, miseq_run + '_' + program + '.txt')
         else:
@@ -165,6 +167,8 @@ def main(run_folder, zip, output_folder=None):
 
     # Grab the name of the MiSeq run folder
     miseq_run = os.path.basename(run_folder)
+
+    logging.info('Running InterOp programs on {}'.format(miseq_run))
 
     # Create plots and summaries
     plot_files = create_plots(run_folder=run_folder, output_folder=output_folder)
