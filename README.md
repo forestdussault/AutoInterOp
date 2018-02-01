@@ -26,6 +26,6 @@ Options:
   -o, --output_folder PATH  Path to desired output folder. Defaults to the
                             same place as the specified run_folder.
   -z, --zip                 Set this flag to zip all output files into a
-                            single archive available in your output folder.
+                            single archive available within your output folder.
   --help                    Show this message and exit.
   ```
