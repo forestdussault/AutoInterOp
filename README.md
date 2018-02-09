@@ -9,12 +9,9 @@ and a **RunInfo.xml** file.
 ```pip3 install AutoInterOp```
 
 #### Dependencies
-- InterOp==v1.1.2: _https://github.com/Illumina/interop/releases_
+- InterOp==v1.1.2: _https://github.com/Illumina/interop/releases/download/v1.1.2/InterOp-1.1.2-Linux-GNU.tar.gz_
 
-All InterOp binaries must be added to your $PATH.
-I have only tested v1.1.2. Please use the following command to retrieve it:
-
-``` https://github.com/Illumina/interop/releases/download/v1.1.2/InterOp-1.1.2-Linux-GNU.tar.gz ```
+**NOTE:** All InterOp binaries must be added to your $PATH.
 
 ### Usage
 ```bash
