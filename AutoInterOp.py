@@ -143,7 +143,8 @@ def dependency_check():
                    'This should contain a SampleInfo.xml file and an InterOp folder.')
 @click.option('-o', '--output_folder',
               type=click.Path(),
-              help='Path to desired output folder. Defaults to the same place as the specified run_folder.')
+              help='Path to desired output folder. Defaults to the same place as the specified run_folder '
+                   'if not specified.')
 @click.option('-z', '--zip',
               is_flag=True,
               default=False,
