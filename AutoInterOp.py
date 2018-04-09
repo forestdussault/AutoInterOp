@@ -118,7 +118,7 @@ def generic_dependency_check(dependency):
     :return: True if dependency is present, False if it isn't.
     """
     check = shutil.which(dependency)
-    if not check:
+    if check is None:
         return False
     else:
         return True
