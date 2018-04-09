@@ -10,6 +10,7 @@ and a **RunInfo.xml** file.
 
 #### Dependencies
 - InterOp==v1.1.2: _https://github.com/Illumina/interop/releases/download/v1.1.2/InterOp-1.1.2-Linux-GNU.tar.gz_
+- gnuplot (`sudo apt install gnuplot`)
 
 **NOTE:** All InterOp binaries must be added to your $PATH.
 
