@@ -3,9 +3,9 @@
 import os
 import glob
 import click
+import shutil
 import zipfile
 import logging
-from accessoryFunctions import accessoryFunctions
 
 
 def replace_line(file_name, line_num, text):
@@ -110,7 +110,21 @@ def generate_summaries(run_folder, output_folder):
     return summary_files
 
 
-def dependency_check():
+def generic_dependency_check(dependency):
+    """
+    Checks a program to see if it's installed (or at least, checks whether or not some sort of executable
+    for it is on your path).
+    :param dependency: Name of program you want to check, as a string.
+    :return: True if dependency is present, False if it isn't.
+    """
+    check = shutil.which(dependency)
+    if not check:
+        return False
+    else:
+        return True
+
+
+def interop_dependency_check():
     """
     Checks if any of the InterOp binaries are missing.
     This has way too much package overhead (biopython, OLCTools) for something I should probably just implement myself.
@@ -127,11 +141,12 @@ def dependency_check():
                     'summary']
     missing_dependencies = []
     for dependency in dependencies:
-        if accessoryFunctions.dependency_check(dependency) is False:
+        if generic_dependency_check(dependency) is False:
             missing_dependencies.append(dependency)
     if missing_dependencies:
         logging.error('The following dependencies are not available on your $PATH: {}'
-                      '\nPlease install them and try rerunning AutoInterOp.'.format(missing_dependencies))
+                      '\nPlease install/add them to your $PATH and '
+                      'try rerunning AutoInterOp.'.format(missing_dependencies))
         quit()
 
 
@@ -145,18 +160,18 @@ def dependency_check():
               type=click.Path(),
               help='Path to desired output folder. Defaults to the same place as the specified run_folder '
                    'if not specified.')
-@click.option('-z', '--zip',
+@click.option('-z', '--zipflag',
               is_flag=True,
               default=False,
               help='Set this flag to zip all output files into a single archive available in your output folder.')
-def main(run_folder, zip, output_folder=None):
+def main(run_folder, zipflag, output_folder=None):
     logging.basicConfig(
         format='\033[92m \033[1m %(asctime)s %(levelname)s \033[0m %(message)s',
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Check to see if necessary binaries are present
-    dependency_check()
+    interop_dependency_check()
 
     # Set up output folder
     if output_folder is None:
@@ -177,7 +192,7 @@ def main(run_folder, zip, output_folder=None):
     all_files = plot_files + summary_files
 
     # If zip flag is specified
-    if zip:
+    if zipflag:
         # Zip all output from plot_files and summary_files
         zip_archive = zipfile.ZipFile(os.path.join(output_folder, miseq_run + '_InterOp_output.zip'), 'w')
         for file in all_files:
@@ -189,6 +204,7 @@ def main(run_folder, zip, output_folder=None):
             os.remove(file)
 
     logging.info('InterOp Pipeline completed. Output available at {}'.format(output_folder))
+
 
 if __name__ == '__main__':
     main()
