@@ -154,7 +154,7 @@ def interop_dependency_check():
 @click.option('-r', '--run_folder',
               type=click.Path(exists=True),
               required=True,
-              help='Path to an Illumina MiSeq run folder. '
+              help='Path to an Illumina MiSeq run folder. ' 
                    'This should contain a SampleInfo.xml file and an InterOp folder.')
 @click.option('-o', '--output_folder',
               type=click.Path(),
