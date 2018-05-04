@@ -1,4 +1,5 @@
 # AutoInterOp
+[![PyPI version](https://badge.fury.io/py/AutoInterOp.svg)](https://badge.fury.io/py/AutoInterOp)
 
 ### Description
 Automatically runs a number of Illumina InterOp processing tools on a
